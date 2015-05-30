@@ -5,7 +5,7 @@ import org.scalatest.Stopper
 import language.reflectiveCalls
 
 object Master extends Stopper {
-  var studentNeedsToMeditate = false
+  private var studentNeedsToMeditate = false
 
   override def apply() = studentNeedsToMeditate
 
@@ -16,13 +16,17 @@ object Master extends Stopper {
 
 
   def studentFailed (event: HasTestNameAndSuiteName): String = {
-    studentNeedsToMeditate = true
+    requestStop()
     meditationMessage(event)
   }
 
   private def meditationMessage(event: HasTestNameAndSuiteName) = {
     "Please meditate on koan \"%s\" of suite \"%s\"" format (event.testName, event.suiteName)
   }
+  
+  def requestStop(): Unit = { studentNeedsToMeditate = true }
+  
+  def stopRequested(): Boolean = studentNeedsToMeditate
 
 }
 

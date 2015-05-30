@@ -4,7 +4,7 @@ import java.util.List;
 
 
 public class SomeJavaClass {
-    public int findSizeOfRawType(List list) {
+    public int findSizeOfRawType(@SuppressWarnings("rawtypes") List list) {
         return list.size();
     }
 
